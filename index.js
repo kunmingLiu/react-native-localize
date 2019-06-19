@@ -1,7 +1,7 @@
 // @flow
 
 // $FlowFixMe
-import { NativeModules, NativeEventEmitter } from "react-native";
+import { Platform, NativeModules, NativeEventEmitter } from "react-native";
 const { RNLocalize } = NativeModules;
 
 export type Calendar = "gregorian" | "japanese" | "buddhist";
@@ -101,6 +101,10 @@ export function findBestAvailableLanguage(
 
     if (languageTags.includes(languageTag)) {
       return { languageTag, isRTL };
+    }
+
+    if (Platform.OS == "android") {
+      return { languageTag: languageTags[0], isRTL };
     }
 
     const partialTag = getPartialTag(currentLocale);
